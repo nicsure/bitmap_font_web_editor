@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bitmap Font Editor</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Bitmap Font Editor</h1>
+      <div class="controls">
+        <label>
+          Font size
+          <select id="fontSize">
+            <option value="8x8">8x8</option>
+            <option value="8x16">8x16</option>
+            <option value="16x16">16x16</option>
+            <option value="16x24">16x24</option>
+            <option value="24x24">24x24</option>
+            <option value="24x32">24x32</option>
+          </select>
+        </label>
+        <label class="file-input">
+          Load font
+          <input type="file" id="fontFile" accept="application/octet-stream" />
+        </label>
+        <button id="saveFont" type="button">Save font</button>
+      </div>
+      <p class="hint">
+        Characters span ASCII 32 (space) through 126 (~). Click a preview glyph to edit it.
+      </p>
+      <p id="status" role="status" aria-live="polite"></p>
+    </header>
+
+    <main>
+      <section class="editor">
+        <div class="editor-header">
+          <h2 id="currentChar">Editing: SPACE (32)</h2>
+          <button id="clearGlyph" type="button">Clear glyph</button>
+        </div>
+        <div id="grid" class="grid" aria-label="Pixel editor" role="grid"></div>
+      </section>
+
+      <section class="preview">
+        <h2>Preview</h2>
+        <div id="previewGrid" class="preview-grid" aria-label="Font preview"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

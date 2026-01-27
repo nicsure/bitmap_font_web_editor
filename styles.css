@@ -1,0 +1,163 @@
+:root {
+  color-scheme: light;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  line-height: 1.4;
+  background: #f6f7fb;
+  color: #1e1e28;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  padding: 1.5rem 2rem 1rem;
+  background: #ffffff;
+  border-bottom: 1px solid #d9dce6;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+h1 {
+  margin: 0 0 0.75rem;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.controls label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.file-input input {
+  margin-left: 0.5rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #7c7f8a;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #eef1f7;
+}
+
+main {
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) minmax(260px, 1fr);
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.editor {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(25, 30, 45, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.grid {
+  display: grid;
+  gap: 4px;
+  padding: 1rem;
+  background: #f2f4fa;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.cell {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: #ffffff;
+  border: 1px solid #c7cbd8;
+  cursor: pointer;
+}
+
+.cell.on {
+  background: #1f4b99;
+  border-color: #1f4b99;
+}
+
+.preview {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(25, 30, 45, 0.08);
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 0.75rem;
+}
+
+.preview-item {
+  border: 1px solid #d2d6e2;
+  border-radius: 8px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  background: #fafbff;
+}
+
+.preview-item.active {
+  border-color: #1f4b99;
+  box-shadow: 0 0 0 2px rgba(31, 75, 153, 0.2);
+}
+
+.preview-item span {
+  font-size: 0.75rem;
+  color: #4d5160;
+}
+
+.preview-canvas {
+  background: #ffffff;
+  border-radius: 4px;
+  border: 1px solid #ccd1df;
+}
+
+.hint {
+  margin-top: 0.75rem;
+  color: #4d5160;
+}
+
+#status {
+  margin: 0.5rem 0 0;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}

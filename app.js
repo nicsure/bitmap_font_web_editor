@@ -485,12 +485,12 @@ flipVerticalButton.addEventListener("click", () => {
   setStatus("Flipped glyph vertically.", false);
 });
 symmetryVerticalButton.addEventListener("click", () => {
-  mirrorGlyphLeftToRight();
-  setStatus("Mirrored left half to the right.", false);
-});
-symmetryHorizontalButton.addEventListener("click", () => {
   mirrorGlyphTopToBottom();
   setStatus("Mirrored top half to the bottom.", false);
+});
+symmetryHorizontalButton.addEventListener("click", () => {
+  mirrorGlyphLeftToRight();
+  setStatus("Mirrored left half to the right.", false);
 });
 
 fontFileInput.addEventListener("change", handleFileLoad);

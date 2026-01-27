@@ -82,6 +82,33 @@ main {
   gap: 1rem;
 }
 
+.editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.nudge-controls {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 0.35rem;
+  justify-items: center;
+}
+
+.nudge-controls-row {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.nudge-controls button {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-weight: 600;
+}
+
 .grid {
   display: grid;
   gap: 4px;

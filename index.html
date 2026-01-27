@@ -37,7 +37,17 @@
       <section class="editor">
         <div class="editor-header">
           <h2 id="currentChar">Editing: SPACE (32)</h2>
-          <button id="clearGlyph" type="button">Clear glyph</button>
+          <div class="editor-actions">
+            <div class="nudge-controls" role="group" aria-label="Nudge glyph">
+              <button id="nudgeUp" type="button" aria-label="Nudge up">↑</button>
+              <div class="nudge-controls-row">
+                <button id="nudgeLeft" type="button" aria-label="Nudge left">←</button>
+                <button id="nudgeDown" type="button" aria-label="Nudge down">↓</button>
+                <button id="nudgeRight" type="button" aria-label="Nudge right">→</button>
+              </div>
+            </div>
+            <button id="clearGlyph" type="button">Clear glyph</button>
+          </div>
         </div>
         <div id="grid" class="grid" aria-label="Pixel editor" role="grid"></div>
       </section>

@@ -17,6 +17,10 @@ const previewGrid = document.getElementById("previewGrid");
 const status = document.getElementById("status");
 const currentCharLabel = document.getElementById("currentChar");
 const clearGlyphButton = document.getElementById("clearGlyph");
+const nudgeUpButton = document.getElementById("nudgeUp");
+const nudgeLeftButton = document.getElementById("nudgeLeft");
+const nudgeDownButton = document.getElementById("nudgeDown");
+const nudgeRightButton = document.getElementById("nudgeRight");
 const fontFileInput = document.getElementById("fontFile");
 const saveFontButton = document.getElementById("saveFont");
 
@@ -102,6 +106,25 @@ function updateGridFromGlyph() {
     const index = Number(cell.dataset.index);
     cell.classList.toggle("on", glyph[index]);
   });
+}
+
+function nudgeGlyph(dx, dy) {
+  const glyph = glyphs[activeIndex];
+  const nextGlyph = createEmptyGlyph();
+  for (let y = 0; y < fontHeight; y += 1) {
+    for (let x = 0; x < fontWidth; x += 1) {
+      const sourceX = x - dx;
+      const sourceY = y - dy;
+      if (sourceX < 0 || sourceX >= fontWidth || sourceY < 0 || sourceY >= fontHeight) {
+        continue;
+      }
+      const sourceIndex = sourceY * fontWidth + sourceX;
+      nextGlyph[y * fontWidth + x] = glyph[sourceIndex];
+    }
+  }
+  glyphs[activeIndex] = nextGlyph;
+  updateGridFromGlyph();
+  updatePreviewItem(activeIndex);
 }
 
 function buildPreview() {
@@ -292,6 +315,11 @@ clearGlyphButton.addEventListener("click", () => {
   updateGridFromGlyph();
   updatePreviewItem(activeIndex);
 });
+
+nudgeUpButton.addEventListener("click", () => nudgeGlyph(0, -1));
+nudgeLeftButton.addEventListener("click", () => nudgeGlyph(-1, 0));
+nudgeDownButton.addEventListener("click", () => nudgeGlyph(0, 1));
+nudgeRightButton.addEventListener("click", () => nudgeGlyph(1, 0));
 
 fontFileInput.addEventListener("change", handleFileLoad);
 

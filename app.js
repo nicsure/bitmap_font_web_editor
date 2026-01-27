@@ -19,6 +19,7 @@ const currentCharLabel = document.getElementById("currentChar");
 const clearGlyphButton = document.getElementById("clearGlyph");
 const copyGlyphButton = document.getElementById("copyGlyph");
 const pasteGlyphButton = document.getElementById("pasteGlyph");
+const mergeGlyphButton = document.getElementById("mergeGlyph");
 const nudgeUpButton = document.getElementById("nudgeUp");
 const nudgeLeftButton = document.getElementById("nudgeLeft");
 const nudgeDownButton = document.getElementById("nudgeDown");
@@ -54,7 +55,9 @@ function updateCurrentCharLabel() {
 }
 
 function updatePasteButtonState() {
-  pasteGlyphButton.disabled = !copiedGlyph;
+  const isDisabled = !copiedGlyph;
+  pasteGlyphButton.disabled = isDisabled;
+  mergeGlyphButton.disabled = isDisabled;
 }
 
 function buildGrid() {
@@ -418,6 +421,21 @@ pasteGlyphButton.addEventListener("click", () => {
   updateGridFromGlyph();
   updatePreviewItem(activeIndex);
   setStatus("Pasted glyph onto current character.", false);
+});
+
+mergeGlyphButton.addEventListener("click", () => {
+  if (!copiedGlyph) {
+    return;
+  }
+  const glyph = glyphs[activeIndex];
+  for (let i = 0; i < glyph.length; i += 1) {
+    if (copiedGlyph[i]) {
+      glyph[i] = true;
+    }
+  }
+  updateGridFromGlyph();
+  updatePreviewItem(activeIndex);
+  setStatus("Merged glyph onto current character.", false);
 });
 
 nudgeUpButton.addEventListener("click", () => nudgeGlyph(0, -1));

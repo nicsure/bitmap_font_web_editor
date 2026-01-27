@@ -27,6 +27,7 @@ const flipHorizontalButton = document.getElementById("flipHorizontal");
 const flipVerticalButton = document.getElementById("flipVertical");
 const fontFileInput = document.getElementById("fontFile");
 const saveFontButton = document.getElementById("saveFont");
+const exportCArrayButton = document.getElementById("exportCArray");
 
 let fontWidth = 8;
 let fontHeight = 8;
@@ -287,6 +288,64 @@ function saveFont() {
   setStatus(`Saved font as ${output.length} bytes.`, false);
 }
 
+function buildFontBytes() {
+  const totalBytes = totalFileBytes();
+  const output = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (let i = 0; i < TOTAL_CHARS; i += 1) {
+    const glyphBytes = glyphToBytes(glyphs[i]);
+    output.set(glyphBytes, offset);
+    offset += glyphBytes.length;
+  }
+  return output;
+}
+
+function formatByte(value) {
+  return `0x${value.toString(16).padStart(2, "0")}`;
+}
+
+function makeCArrayName() {
+  return `bitmap_font_${fontWidth}x${fontHeight}`;
+}
+
+function exportCArray() {
+  const bytes = buildFontBytes();
+  const arrayName = makeCArrayName();
+  const lines = [];
+  lines.push(`#include <stdint.h>`);
+  lines.push("");
+  lines.push(`const uint8_t ${arrayName}[] = {`);
+  const lineBytes = [];
+  for (let i = 0; i < bytes.length; i += 1) {
+    lineBytes.push(formatByte(bytes[i]));
+    if (lineBytes.length === 12 || i === bytes.length - 1) {
+      lines.push(`  ${lineBytes.join(", ")}${i === bytes.length - 1 ? "" : ","}`);
+      lineBytes.length = 0;
+    }
+  }
+  lines.push("};");
+  lines.push(
+    `const unsigned int ${arrayName}_length = ${bytes.length};`
+  );
+  lines.push(
+    `const unsigned int ${arrayName}_width = ${fontWidth};`
+  );
+  lines.push(
+    `const unsigned int ${arrayName}_height = ${fontHeight};`
+  );
+  lines.push(
+    `const unsigned int ${arrayName}_glyph_count = ${TOTAL_CHARS};`
+  );
+
+  const blob = new Blob([lines.join("\n")], { type: "text/plain" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `${arrayName}.h`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+  setStatus(`Exported C array as ${bytes.length} bytes.`, false);
+}
+
 function handleFileLoad(event) {
   const file = event.target.files[0];
   if (!file) {
@@ -377,5 +436,6 @@ flipVerticalButton.addEventListener("click", () => {
 fontFileInput.addEventListener("change", handleFileLoad);
 
 saveFontButton.addEventListener("click", saveFont);
+exportCArrayButton.addEventListener("click", exportCArray);
 
 initializeGlyphs();

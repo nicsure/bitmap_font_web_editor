@@ -26,6 +26,8 @@ const nudgeDownButton = document.getElementById("nudgeDown");
 const nudgeRightButton = document.getElementById("nudgeRight");
 const flipHorizontalButton = document.getElementById("flipHorizontal");
 const flipVerticalButton = document.getElementById("flipVertical");
+const symmetryVerticalButton = document.getElementById("symmetryVertical");
+const symmetryHorizontalButton = document.getElementById("symmetryHorizontal");
 const fontFileInput = document.getElementById("fontFile");
 const saveFontButton = document.getElementById("saveFont");
 const exportCArrayButton = document.getElementById("exportCArray");
@@ -149,6 +151,38 @@ function flipGlyph(flipHorizontal, flipVertical) {
       const sourceY = flipVertical ? fontHeight - 1 - y : y;
       const sourceIndex = sourceY * fontWidth + sourceX;
       nextGlyph[y * fontWidth + x] = glyph[sourceIndex];
+    }
+  }
+  glyphs[activeIndex] = nextGlyph;
+  updateGridFromGlyph();
+  updatePreviewItem(activeIndex);
+}
+
+function mirrorGlyphLeftToRight() {
+  const glyph = glyphs[activeIndex];
+  const nextGlyph = [...glyph];
+  const halfWidth = Math.floor(fontWidth / 2);
+  for (let y = 0; y < fontHeight; y += 1) {
+    for (let x = 0; x < halfWidth; x += 1) {
+      const sourceIndex = y * fontWidth + x;
+      const targetX = fontWidth - 1 - x;
+      nextGlyph[y * fontWidth + targetX] = glyph[sourceIndex];
+    }
+  }
+  glyphs[activeIndex] = nextGlyph;
+  updateGridFromGlyph();
+  updatePreviewItem(activeIndex);
+}
+
+function mirrorGlyphTopToBottom() {
+  const glyph = glyphs[activeIndex];
+  const nextGlyph = [...glyph];
+  const halfHeight = Math.floor(fontHeight / 2);
+  for (let y = 0; y < halfHeight; y += 1) {
+    for (let x = 0; x < fontWidth; x += 1) {
+      const sourceIndex = y * fontWidth + x;
+      const targetY = fontHeight - 1 - y;
+      nextGlyph[targetY * fontWidth + x] = glyph[sourceIndex];
     }
   }
   glyphs[activeIndex] = nextGlyph;
@@ -449,6 +483,14 @@ flipHorizontalButton.addEventListener("click", () => {
 flipVerticalButton.addEventListener("click", () => {
   flipGlyph(false, true);
   setStatus("Flipped glyph vertically.", false);
+});
+symmetryVerticalButton.addEventListener("click", () => {
+  mirrorGlyphLeftToRight();
+  setStatus("Mirrored left half to the right.", false);
+});
+symmetryHorizontalButton.addEventListener("click", () => {
+  mirrorGlyphTopToBottom();
+  setStatus("Mirrored top half to the bottom.", false);
 });
 
 fontFileInput.addEventListener("change", handleFileLoad);

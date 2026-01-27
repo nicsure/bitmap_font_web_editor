@@ -58,6 +58,11 @@ button:hover {
   background: #eef1f7;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 main {
   display: grid;
   grid-template-columns: minmax(320px, 1fr) minmax(260px, 1fr);
@@ -88,6 +93,12 @@ main {
   gap: 1rem;
   flex-wrap: wrap;
   justify-content: flex-end;
+}
+
+.copy-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .nudge-controls {

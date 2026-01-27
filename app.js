@@ -17,6 +17,8 @@ const previewGrid = document.getElementById("previewGrid");
 const status = document.getElementById("status");
 const currentCharLabel = document.getElementById("currentChar");
 const clearGlyphButton = document.getElementById("clearGlyph");
+const copyGlyphButton = document.getElementById("copyGlyph");
+const pasteGlyphButton = document.getElementById("pasteGlyph");
 const nudgeUpButton = document.getElementById("nudgeUp");
 const nudgeLeftButton = document.getElementById("nudgeLeft");
 const nudgeDownButton = document.getElementById("nudgeDown");
@@ -30,6 +32,7 @@ let glyphs = [];
 let activeIndex = 0;
 let isPainting = false;
 let paintValue = false;
+let copiedGlyph = null;
 
 function createEmptyGlyph() {
   return new Array(fontWidth * fontHeight).fill(false);
@@ -45,6 +48,10 @@ function updateCurrentCharLabel() {
   const char = String.fromCharCode(charCode);
   const display = char === " " ? "SPACE" : char;
   currentCharLabel.textContent = `Editing: ${display} (${charCode})`;
+}
+
+function updatePasteButtonState() {
+  pasteGlyphButton.disabled = !copiedGlyph;
 }
 
 function buildGrid() {
@@ -196,6 +203,8 @@ function setActiveIndex(index) {
 function initializeGlyphs() {
   glyphs = Array.from({ length: TOTAL_CHARS }, () => createEmptyGlyph());
   activeIndex = 0;
+  copiedGlyph = null;
+  updatePasteButtonState();
   updateCurrentCharLabel();
   buildGrid();
   buildPreview();
@@ -297,6 +306,8 @@ function handleFileLoad(event) {
 
     buildGrid();
     buildPreview();
+    copiedGlyph = null;
+    updatePasteButtonState();
     setActiveIndex(0);
     setStatus(`Loaded ${fontWidth}x${fontHeight} font (${bytes.length} bytes).`, false);
   };
@@ -314,6 +325,22 @@ clearGlyphButton.addEventListener("click", () => {
   glyphs[activeIndex] = createEmptyGlyph();
   updateGridFromGlyph();
   updatePreviewItem(activeIndex);
+});
+
+copyGlyphButton.addEventListener("click", () => {
+  copiedGlyph = [...glyphs[activeIndex]];
+  updatePasteButtonState();
+  setStatus("Copied current glyph. Select another glyph to paste.", false);
+});
+
+pasteGlyphButton.addEventListener("click", () => {
+  if (!copiedGlyph) {
+    return;
+  }
+  glyphs[activeIndex] = [...copiedGlyph];
+  updateGridFromGlyph();
+  updatePreviewItem(activeIndex);
+  setStatus("Pasted glyph onto current character.", false);
 });
 
 nudgeUpButton.addEventListener("click", () => nudgeGlyph(0, -1));

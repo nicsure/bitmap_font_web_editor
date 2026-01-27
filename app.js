@@ -254,7 +254,7 @@ function saveFont() {
   const blob = new Blob([output], { type: "application/octet-stream" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = `bitmap-font-${fontWidth}x${fontHeight}.bin`;
+  link.download = `bitmap-font-${fontWidth}x${fontHeight}.rmsfont`;
   link.click();
   URL.revokeObjectURL(link.href);
   setStatus(`Saved font as ${output.length} bytes.`, false);

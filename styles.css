@@ -101,6 +101,13 @@ main {
   gap: 0.5rem;
 }
 
+.flip-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 .nudge-controls {
   display: grid;
   grid-template-columns: auto;

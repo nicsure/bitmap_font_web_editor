@@ -23,6 +23,8 @@ const nudgeUpButton = document.getElementById("nudgeUp");
 const nudgeLeftButton = document.getElementById("nudgeLeft");
 const nudgeDownButton = document.getElementById("nudgeDown");
 const nudgeRightButton = document.getElementById("nudgeRight");
+const flipHorizontalButton = document.getElementById("flipHorizontal");
+const flipVerticalButton = document.getElementById("flipVertical");
 const fontFileInput = document.getElementById("fontFile");
 const saveFontButton = document.getElementById("saveFont");
 
@@ -125,6 +127,22 @@ function nudgeGlyph(dx, dy) {
       if (sourceX < 0 || sourceX >= fontWidth || sourceY < 0 || sourceY >= fontHeight) {
         continue;
       }
+      const sourceIndex = sourceY * fontWidth + sourceX;
+      nextGlyph[y * fontWidth + x] = glyph[sourceIndex];
+    }
+  }
+  glyphs[activeIndex] = nextGlyph;
+  updateGridFromGlyph();
+  updatePreviewItem(activeIndex);
+}
+
+function flipGlyph(flipHorizontal, flipVertical) {
+  const glyph = glyphs[activeIndex];
+  const nextGlyph = createEmptyGlyph();
+  for (let y = 0; y < fontHeight; y += 1) {
+    for (let x = 0; x < fontWidth; x += 1) {
+      const sourceX = flipHorizontal ? fontWidth - 1 - x : x;
+      const sourceY = flipVertical ? fontHeight - 1 - y : y;
       const sourceIndex = sourceY * fontWidth + sourceX;
       nextGlyph[y * fontWidth + x] = glyph[sourceIndex];
     }
@@ -347,6 +365,14 @@ nudgeUpButton.addEventListener("click", () => nudgeGlyph(0, -1));
 nudgeLeftButton.addEventListener("click", () => nudgeGlyph(-1, 0));
 nudgeDownButton.addEventListener("click", () => nudgeGlyph(0, 1));
 nudgeRightButton.addEventListener("click", () => nudgeGlyph(1, 0));
+flipHorizontalButton.addEventListener("click", () => {
+  flipGlyph(true, false);
+  setStatus("Mirrored glyph horizontally.", false);
+});
+flipVerticalButton.addEventListener("click", () => {
+  flipGlyph(false, true);
+  setStatus("Flipped glyph vertically.", false);
+});
 
 fontFileInput.addEventListener("change", handleFileLoad);
 

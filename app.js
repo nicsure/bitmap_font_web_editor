@@ -307,6 +307,18 @@ function bytesToGlyph(bytes, offset) {
   return glyph;
 }
 
+function triggerDownload(blob, filename) {
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.href = url;
+  link.download = filename;
+  link.style.display = "none";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+}
+
 function saveFont() {
   const totalBytes = totalFileBytes();
   const output = new Uint8Array(totalBytes);
@@ -317,11 +329,7 @@ function saveFont() {
     offset += glyphBytes.length;
   }
   const blob = new Blob([output], { type: "application/octet-stream" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = `bitmap-font-${fontWidth}x${fontHeight}.rmsfont`;
-  link.click();
-  URL.revokeObjectURL(link.href);
+  triggerDownload(blob, `bitmap-font-${fontWidth}x${fontHeight}.rmsfont`);
   setStatus(`Saved font as ${output.length} bytes.`, false);
 }
 
@@ -375,11 +383,7 @@ function exportCArray() {
   );
 
   const blob = new Blob([lines.join("\n")], { type: "text/plain" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = `${arrayName}.h`;
-  link.click();
-  URL.revokeObjectURL(link.href);
+  triggerDownload(blob, `${arrayName}.h`);
   setStatus(`Exported C array as ${bytes.length} bytes.`, false);
 }
 

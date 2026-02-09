@@ -314,9 +314,11 @@ function triggerDownload(blob, filename) {
   link.download = filename;
   link.style.display = "none";
   document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  setTimeout(() => URL.revokeObjectURL(url), 0);
+  requestAnimationFrame(() => {
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
 }
 
 function saveFont() {

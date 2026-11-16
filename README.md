@@ -1,6 +1,11 @@
 # Bitmap Font Web Editor
 
-[Open the live app on GitHub Pages.](https://nicsure.github.io/bitmap_font_web_editor/)
+[Open the live editor on GitHub Pages.](https://nicsure.github.io/bitmap_font_web_editor/)
+
+# Font conversion tool by David Hoops
+
+[Open the live converter on GitHub Pages.](https://nicsure.github.io/RMS_Font_ConverterV2.html)
+
 
 ## Overview
 

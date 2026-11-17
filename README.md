@@ -4,7 +4,7 @@
 
 # Font conversion tool by David Hoops
 
-[Open the live converter on GitHub Pages.](https://nicsure.github.io/bitmap_font_web_editor/RMS_Font_ConverterV2.html)
+[Open the live converter on GitHub Pages.](https://nicsure.github.io/bitmap_font_web_editor/RMS_Font_ConverterV3.html)
 
 
 ## Overview
